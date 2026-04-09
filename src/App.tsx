@@ -21,10 +21,12 @@ function App() {
     checkUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         if (session?.user) {
           setUser(session.user);
-          await loadPlayerData(session.user.id);
+          (async () => {
+            await loadPlayerData(session.user.id);
+          })();
         } else {
           setUser(null);
           setPlayer(null);
